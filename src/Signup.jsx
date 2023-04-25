@@ -5,18 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
-import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-
+import * as React from "react";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const formValidationSchema = yup.object({
   username: yup.string().required().min(5),
   password: yup.string().required().min(8),
-  repassword: yup.string().required()
-  .oneOf([yup.ref('password'), null], 'Passwords must match'
-)
+  repassword: yup
+    .string()
+    .required()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -24,65 +24,42 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export function Signup() {
-
   const [open, setOpen] = React.useState(false);
   const handleClick = () => {
     setOpen(true);
   };
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
-
 
   const navigate = useNavigate();
   const { handleSubmit, handleChange, handleBlur, values, touched, errors } =
     useFormik({
       initialValues: {
         username: "",
-        password:"",
-        repassword: ""
+        password: "",
+        repassword: "",
       },
       validationSchema: formValidationSchema,
       onSubmit: async (e) => {
-        const result = await fetch("http://localhost:4000/signup", {
-          method: "POST",
-          body: JSON.stringify(e),
-          headers: { "Content-Type": "application/json" },
-        }).then((data) => data);
+        const result = await fetch(
+          "https://diet-suggestion-backend.vercel.app/signup",
+          {
+            method: "POST",
+            body: JSON.stringify(e),
+            headers: { "Content-Type": "application/json" },
+          }
+        ).then((data) => data);
         if (result.status == 200) {
-         navigate("/");
+          navigate("/");
         } else {
           handleClick();
         }
-        // const res =await result.json();
       },
     });
-  // const loggedin = () => {
-  //   const newCard = {
-  //     username: username,
-  //     password: password,
-  //   };
-  //   fetch("http://localhost:4000/signup", {
-  //     method: "POST",
-  //     body: JSON.stringify(newCard),
-  //     headers: { "Content-Type": "application/json" },
-  //   });
-
-  //   const url = fetch("http://localhost:4000/", {
-  //     headers: {
-  //       "x-auth-token": "",
-  //     },
-  //   }).then((data) => {
-  //     if (data.status == 200) {
-  //       data.text().then((crd) => navigate("/user"));
-  //     } else {
-  //       navigate("/");
-  //     }
-  //   });
-  // };
   return (
     <div style={{ padding: "80px 0" }}>
       <div>
@@ -142,11 +119,11 @@ export function Signup() {
             <a onClick={(e) => navigate("/")}>Already have an account</a>
           </div>
         </form>
-      <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          User name is already exist!
-        </Alert>
-      </Snackbar>
+        <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+            User name is already exist!
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );

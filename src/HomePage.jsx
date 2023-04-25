@@ -9,17 +9,19 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import {apiContext} from "./App.jsx"
+import { apiContext } from "./App.jsx";
 
 export function HomePage() {
-  const {url,setUrl}=useContext(apiContext);
+  const { url, setUrl } = useContext(apiContext);
   const navigate = useNavigate();
   const [diet, setDiet] = useState("Anything");
   const [cal, setCal] = useState(0);
   const handleChange = (event) => {
     setDiet(event.target.value);
   };
-  setUrl(`https://api.spoonacular.com/mealplanner/generate?apiKey=a13ff03924494e43b63e233c5aa0dedd&timeFrame=day&targetCalories=${cal}&diet=${diet}`)
+  setUrl(
+    `https://api.spoonacular.com/mealplanner/generate?apiKey=a13ff03924494e43b63e233c5aa0dedd&timeFrame=day&targetCalories=${cal}&diet=${diet}`
+  );
   const getvalues = () => {
     navigate("/user/diet");
   };

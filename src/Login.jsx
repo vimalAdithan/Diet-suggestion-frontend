@@ -11,9 +11,6 @@ const formValidationSchema = yup.object({
 
 export function Login() {
   const navigate = useNavigate();
-  // const [show, setShow] = useState(true);
-  // const [userid, setUserid] = useState("");
-  // const [password, setPassword] = useState("");
   const { handleSubmit, handleChange, handleBlur, values, touched, errors } =
     useFormik({
       initialValues: {
@@ -22,14 +19,17 @@ export function Login() {
       },
       validationSchema: formValidationSchema,
       onSubmit: async (e) => {
-        const result = await fetch("http://localhost:4000/login", {
-          method: "POST",
-          body: JSON.stringify({
-            username: e.userid,
-            password: e.password,
-          }),
-          headers: { "Content-Type": "application/json" },
-        }).then((data) => data);
+        const result = await fetch(
+          "https://diet-suggestion-backend.vercel.app/login",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              username: e.userid,
+              password: e.password,
+            }),
+            headers: { "Content-Type": "application/json" },
+          }
+        ).then((data) => data);
         if (result.status == 200) {
           navigate("/user");
         } else {
