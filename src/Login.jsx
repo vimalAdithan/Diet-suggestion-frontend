@@ -20,7 +20,7 @@ export function Login() {
       validationSchema: formValidationSchema,
       onSubmit: async (e) => {
         const result = await fetch(
-          "https://diet-suggestion-backend.vercel.app/login",
+          "https://diet-suggestion-backend.onrender.com/login",
           {
             method: "POST",
             body: JSON.stringify({

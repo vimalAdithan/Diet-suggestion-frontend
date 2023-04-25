@@ -46,7 +46,7 @@ export function Signup() {
       validationSchema: formValidationSchema,
       onSubmit: async (e) => {
         const result = await fetch(
-          "https://diet-suggestion-backend.vercel.app/signup",
+          "https://diet-suggestion-backend.onrender.com/signup",
           {
             method: "POST",
             body: JSON.stringify(e),
