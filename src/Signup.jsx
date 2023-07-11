@@ -1,12 +1,9 @@
-import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
 import * as React from "react";
-import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
@@ -45,15 +42,12 @@ export function Signup() {
       },
       validationSchema: formValidationSchema,
       onSubmit: async (e) => {
-        const result = await fetch(
-          "https://diet-suggestion-backend.onrender.com/signup",
-          {
-            method: "POST",
-            body: JSON.stringify(e),
-            headers: { "Content-Type": "application/json" },
-          }
-        ).then((data) => data);
-        if (result.status == 200) {
+        const result = await fetch("https://sample-login-node.vercel.app/signup", {
+          method: "POST",
+          body: JSON.stringify(e),
+          headers: { "Content-Type": "application/json" },
+        }).then((data) => data);
+        if (result.status == 201) {
           navigate("/");
         } else {
           handleClick();
@@ -62,18 +56,8 @@ export function Signup() {
     });
   return (
     <div style={{ padding: "80px 0" }}>
-      <div>
-        <h1
-          style={{
-            margin: "auto",
-            width: "115px",
-          }}
-        >
-          DayDiet
-        </h1>
-      </div>
       <div className="login-box">
-        <p>Log in to account</p>
+        <p>Sign up</p>
         <form onSubmit={handleSubmit}>
           <TextField
             name="username"
@@ -81,7 +65,7 @@ export function Signup() {
             onBlur={handleBlur}
             value={values.username}
             id="username"
-            label="username"
+            label="Email Id"
             variant="outlined"
             size="small"
           />
@@ -89,7 +73,7 @@ export function Signup() {
           <TextField
             autoComplete="on"
             id="password"
-            label="password"
+            label="Password"
             variant="outlined"
             size="small"
             type="password"
@@ -102,7 +86,7 @@ export function Signup() {
           <TextField
             autoComplete="on"
             id="repassword"
-            label="retype-password"
+            label="Confirm Password"
             variant="outlined"
             size="small"
             type="password"
@@ -116,10 +100,10 @@ export function Signup() {
             Signup
           </Button>
           <div>
-            <a onClick={(e) => navigate("/")}>Already have an account</a>
+          <p style={{ display: "inline-block" }}>Already have an account? <NavLink to="/">Sign In</NavLink></p>
           </div>
         </form>
-        <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+        <Snackbar open={open} anchorOrigin={{ vertical: "top", horizontal: "right" }} autoHideDuration={5000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
             User name is already exist!
           </Alert>
